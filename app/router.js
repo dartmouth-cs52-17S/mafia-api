@@ -13,4 +13,8 @@ router.get('/users', (req, res) => {
   Users.getUsers(req, res);
 });
 
+router.get('/user/:id', (req, res) => {
+  Users.getUser(req, res);
+});
+
 export default router;
