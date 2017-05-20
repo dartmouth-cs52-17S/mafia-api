@@ -4,6 +4,12 @@ const UserSchema = new Schema({
   username: { type: String, unique: true, lowercase: true },
   wins: Number,
   losses: Number,
+  pic: String,
+  badges: [String],
+  roundsAsMafia: Number,
+  roundsAsVillager: Number,
+  roundsAsDoctor: Number,
+  roundsAsPolice: Number,
 }, {
   toJSON: {
     virtuals: true,

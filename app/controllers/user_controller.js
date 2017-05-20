@@ -23,6 +23,12 @@ export const signUp = (req, res, next) => {
     user.username = req.body.username;
     user.wins = 0;
     user.losses = 0;
+    user.pic = '';
+    user.badges = [];
+    user.roundsAsMafia = 0;
+    user.roundsAsVillager = 0;
+    user.roundsAsPolice = 0;
+    user.roundsAsDoctor = 0;
     user.save((err) => {
       if (err) res.sendStatus(500);
     });
