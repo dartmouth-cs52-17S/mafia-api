@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as Users from './controllers/user_controller';
+import * as Games from './controllers/game_controller';
 
 const router = Router();
 
@@ -16,5 +17,11 @@ router.get('/user/:id', Users.getUser);
 router.post('/signin', Users.authUser);
 
 router.put('/users', Users.assignRoles);
+
+router.post('/games', Games.createGame);
+
+router.put('/games', Games.updatePlayers);
+
+router.get('/games', Games.getGames);
 
 export default router;
