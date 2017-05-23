@@ -29,6 +29,13 @@ export const authUser = (req, res) => {
   });
 };
 
+export const getNameFromFBID = (req, res) => {
+  User.findOne({ facebookID: req.body.fbid })
+    .then((data) => {
+      res.send(data);
+    });
+};
+
 export const getUsers = (req, res) => {
   User.find({}).then((data) => {
     res.send(data);
@@ -39,6 +46,10 @@ export const getUser = (req, res) => {
   User.findById(req.params.id).then((data) => {
     res.send(data);
   });
+};
+
+export const assignRoles = (req, res) => {
+  res.done();
 };
 
 // encodes a new token for a user object
