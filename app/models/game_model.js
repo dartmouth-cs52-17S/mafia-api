@@ -5,7 +5,7 @@ const GameSchema = new Schema({
   currentGameStage: Number,
   currentStageStartTime: Date,
   creator: String,
-  players: [Player.types.objectID],
+  players: [Schema.types.objectID],
 
 }, {
   toJSON: {

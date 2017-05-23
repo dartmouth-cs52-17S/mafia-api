@@ -5,9 +5,8 @@ import Game from './game_model';
 const PlayerSchema = new Schema({
   game: Game.types.objectID,
   user: User.types.objectID,
-  status: Boolean,
+  status: { type: Boolean, default: true },
   role: String,
-
 }, {
   toJSON: {
     virtuals: true,
