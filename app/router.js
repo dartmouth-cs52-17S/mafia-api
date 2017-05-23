@@ -7,6 +7,8 @@ router.get('/', (req, res) => {
   res.json({ message: 'welcome to our mafia game api!' });
 });
 
+router.post('/getNameFromFBID', Users.getNameFromFBID);
+
 router.get('/users', Users.getUsers);
 
 router.get('/user/:id', Users.getUser);
