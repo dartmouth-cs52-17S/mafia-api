@@ -1,3 +1,4 @@
+import jwt from 'jwt-simple';
 import User from '../models/user_model';
 
 export const signUp = (req, res, next) => {
@@ -15,7 +16,7 @@ export const signUp = (req, res, next) => {
       res.status(500).json({ err });
       return;
     } else if (data) {
-      res.status(409).send('This email address is already registered');
+      res.status(409).send('This username is already registered');
       return;
     }
 
@@ -29,11 +30,29 @@ export const signUp = (req, res, next) => {
     user.roundsAsVillager = 0;
     user.roundsAsPolice = 0;
     user.roundsAsDoctor = 0;
-    user.save((err) => {
-      if (err) res.sendStatus(500);
+    user.isAlive = true;
+    user.currentRole = '';
+    user.save()
+    .then((result) => {
+      res.send({ token: tokenForUser(result) });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
     });
   });
 };
+
+export const signin = (req, res, next) => {
+  console.log(req.user);
+  res.send({ token: tokenForUser(req.user) });
+};
+
+
+// encodes a new token for a user object
+function tokenForUser(user) {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat: timestamp }, process.env.AUTH_SECRET);
+}
 
 export const getUsers = (req, res) => {
   User.find({}).then((data) => {
