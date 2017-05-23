@@ -13,4 +13,6 @@ router.get('/user/:id', Users.getUser);
 
 router.post('/signin', Users.authUser);
 
+router.put('/users', Users.assignRoles);
+
 export default router;
