@@ -3,10 +3,16 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import mongoose from 'mongoose';
+import socketio from 'socket.io';
+import http from 'http';
+import uuid from 'uuid';
 import apiRouter from './router';
 
 // initialize
 const app = express();
+const server = http.createServer(app);
+const io = socketio.listen(server);
+server.listen(3000);
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/mafia';
@@ -16,6 +22,14 @@ mongoose.Promise = global.Promise;
 
 // enable/disable cross origin resource sharing if necessary
 app.use(cors());
+
+const setCustomHeaderFunc = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+};
+
+app.all('*', setCustomHeaderFunc);
 
 app.set('view engine', 'ejs');
 app.use(express.static('static'));
@@ -36,9 +50,23 @@ app.get('/', (req, res) => {
   res.send('hello world, it\'s a mafia!');
 });
 
+app.get('/auth/facebook/callback', (req, res, next) => {
+  res.redirect('/');
+});
+
 // START THE SERVER
 // =============================================================================
 const port = process.env.PORT || 9090;
 app.listen(port);
 
 console.log(`listening on: ${port}`);
+
+io.on('connection', (socket) => {
+  socket.userID = uuid();
+  socket.emit('connect', { id: socket.userID });
+  console.log(`\t socket.io:: player ${socket.userID} connected`);
+
+  socket.on('disconnect', () => {
+    console.log(`\t socket.io:: client disconnected ${socket.userid}`);
+  });
+});

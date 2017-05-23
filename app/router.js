@@ -3,21 +3,16 @@ import * as Users from './controllers/user_controller';
 
 const router = Router();
 
-router.post('/signin', Users.signin);
-router.post('/signup', Users.signUp);
-
 router.get('/', (req, res) => {
   res.json({ message: 'welcome to our mafia game api!' });
 });
 
-router.get('/users', (req, res) => {
-  Users.getUsers(req, res);
-});
+router.get('/users', Users.getUsers);
+
+router.get('/user/:id', Users.getUser);
+
+router.post('/signin', Users.authUser);
 
 router.put('/users', Users.assignRoles);
-
-router.get('/user/:id', (req, res) => {
-  Users.getUser(req, res);
-});
 
 export default router;
