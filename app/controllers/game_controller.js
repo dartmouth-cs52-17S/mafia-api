@@ -16,9 +16,10 @@ export const createGame = (req, res, next) => {
 };
 
 export const updatePlayers = (req, res) => {
+  console.log('updatePlayers');
   Game.findById(req.body.gameID).then((game) => {
     if (game.creator === `${req.user._id}`) {
-      res.send();
+      res.send(game.players);
     } else {
       game.players = game.players.push(req.user);
       game.save()
@@ -29,6 +30,15 @@ export const updatePlayers = (req, res) => {
         res.sendStatus(500);
       });
     }
+  });
+};
+
+export const getGame = (req, res) => {
+  Game.findById(req.params.id).then((response) => {
+    res.send(response);
+  })
+  .catch((error) => {
+    console.log(error);
   });
 };
 
