@@ -2,11 +2,10 @@ import { Router } from 'express';
 import * as Users from './controllers/user_controller';
 import * as Player from './controllers/player_controller';
 import * as Games from './controllers/game_controller';
+import { requireAuth } from './services/passport';
 
 const router = Router();
 
-router.post('/signin', Users.signin);
-router.post('/signup', Users.signUp);
 router.post('/createplayers', Player.createPlayers);
 
 router.get('/', (req, res) => {
@@ -25,9 +24,9 @@ router.get('/players', (req, res) => {
   Player.getPlayers(req, res);
 });
 
-router.put('/users', Users.assignRoles);
+// router.put('/users', Users.assignRoles);
 
-router.post('/games', Games.createGame);
+router.post('/games', requireAuth, Games.createGame);
 
 router.put('/games', Games.updatePlayers);
 
