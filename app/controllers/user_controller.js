@@ -48,9 +48,9 @@ export const getUser = (req, res) => {
   });
 };
 
-export const assignRoles = (req, res) => {
-  res.done();
-};
+// export const assignRoles = (req, res) => {
+//   res.done();
+// };
 
 // encodes a new token for a user object
 function tokenForFBID(FBID) {
