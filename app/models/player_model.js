@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
 const PlayerSchema = new Schema({
-  game: { type: Schema.types.objectID, ref: 'Game' },
-  user: { type: Schema.types.objectID, ref: 'User' },
+  game: { type: String, ref: 'Game' },
+  user: { type: String, ref: 'User' },
   status: { type: Boolean, default: true },
   role: String,
 }, {

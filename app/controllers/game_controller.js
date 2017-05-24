@@ -1,10 +1,11 @@
 import Game from '../models/game_model';
 
 export const createGame = (req, res, next) => {
+  console.log('createGame');
   const game = new Game();
   game.currentGameStage = 0;
-  game.players = [req.body.fbid];
-  game.creator = req.body.fbid;
+  game.players = [req.user];
+  game.creator = req.user;
   game.save()
   .then((response) => {
     res.send(response);
