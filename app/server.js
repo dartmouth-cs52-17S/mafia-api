@@ -74,6 +74,7 @@ io.on('connection', (socket) => {
 const chat = io
   .of('/chat')
   .on('connection', (socket) => {
+    socket.userID = uuid();
     console.log(`UserID ${socket.userID} has joined the chat room.`);
     socket.emit('message', 'welcome to our chat!');
     chat.emit('message', `${socket.userID} has joined.`);
