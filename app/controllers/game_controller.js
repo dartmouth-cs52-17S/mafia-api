@@ -4,8 +4,8 @@ export const createGame = (req, res, next) => {
   console.log('createGame');
   const game = new Game();
   game.currentGameStage = 0;
-  game.players = [req.user];
-  game.creator = req.user;
+  game.players = [req.user._id];
+  game.creator = req.user._id;
   game.save()
   .then((response) => {
     res.send(response);
@@ -16,10 +16,19 @@ export const createGame = (req, res, next) => {
 };
 
 export const updatePlayers = (req, res) => {
-  Game.findOne({ creator: req.body.fbid }).then((game) => {
-    console.log(game);
-    game.players = [...game.players, req.body.fbid];
-    res.send(req.body.fbid);
+  Game.findById(req.body.gameID).then((game) => {
+    if (game.creator === `${req.user._id}`) {
+      res.send();
+    } else {
+      game.players = game.players.push(req.user);
+      game.save()
+      .then((response) => {
+        res.send(response);
+      })
+      .catch((err) => {
+        res.sendStatus(500);
+      });
+    }
   });
 };
 
