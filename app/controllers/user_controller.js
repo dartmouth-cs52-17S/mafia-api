@@ -7,7 +7,7 @@ dotenv.config({ silent: true });
 
 export const authUser = (req, res) => {
   // res.send({ token: tokenForUser(req.body.token) });
-  FB.api('/me', { access_token: req.body.token }, (response) => {
+  FB.api('/me', { access_token: req.body.authData.token }, (response) => {
     User.findOne({ name: response.name }, (err, data) => {
       if (!err && !data) {
         const user = new User();
@@ -22,7 +22,7 @@ export const authUser = (req, res) => {
         user.roundsAsPolice = 0;
         user.roundsAsDoctor = 0;
         user.save()
-          .then(res.send({ token: tokenForFBID(response.id) }))
+          .then(res.send({ token: tokenForFBID(response.id), user }))
           .catch((error) => { console.log(error); });
       }
     });
