@@ -47,3 +47,13 @@ export const getPlayer = (req, res) => {
     res.send(data);
   });
 };
+
+export const updatePlayer = (req, res) => {
+  Player.findByIdAndUpdate(req.body.userId, req.body)
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((error) => {
+    res.status(500).json({ error });
+  });
+};
