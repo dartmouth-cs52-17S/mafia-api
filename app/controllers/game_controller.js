@@ -14,20 +14,6 @@ export const createGame = (req, res, next) => {
   });
 };
 
-export const updatePlayers = (req, res) => {
-  Game.findOne({ creator: req.body.fbid }).then((game) => {
-    console.log(game);
-    game.players = [...game.players, req.body.fbid];
-    res.send(req.body.fbid);
-  });
-};
-
-export const getPlayers = (req, res) => {
-  Game.find({}).then((data) => {
-    res.send(data);
-  });
-};
-
 // export const getPlayer = (req, res) => {
 //   Game.findById(req.username).then((data) => {
 //     res.send(data);
@@ -60,6 +46,20 @@ export const assignRole = (req, res, next) => {
 };
 
 export const getGames = (req, res) => {
+  Game.find({}).then((data) => {
+    res.send(data);
+  });
+};
+
+export const updatePlayers = (req, res) => {
+  Game.findOne({ creator: req.body.fbid }).then((game) => {
+    console.log(game);
+    game.players = [...game.players, req.body.fbid];
+    res.send(req.body.fbid);
+  });
+};
+
+export const getPlayers = (req, res) => {
   Game.find({}).then((data) => {
     res.send(data);
   });
