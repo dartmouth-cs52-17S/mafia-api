@@ -79,6 +79,10 @@ const chat = io
     socket.emit('message', 'welcome to our chat!');
     chat.emit('message', `${socket.userID} has joined.`);
 
+    socket.on('message', (msg) => {
+      console.log(`message received: ${msg.text}`);
+    });
+
     socket.on('disconnect', () => {
       console.log(`UserID ${socket.userID} has left the chat room.`);
     });
