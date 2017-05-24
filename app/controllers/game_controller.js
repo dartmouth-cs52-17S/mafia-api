@@ -28,11 +28,11 @@ export const getPlayers = (req, res) => {
   });
 };
 
-export const getPlayer = (req, res) => {
-  Game.findById(req.username).then((data) => {
-    res.send(data);
-  });
-};
+// export const getPlayer = (req, res) => {
+//   Game.findById(req.username).then((data) => {
+//     res.send(data);
+//   });
+// };
 
 // from stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 export const shuffle = (players) => {
@@ -64,6 +64,3 @@ export const getGames = (req, res) => {
     res.send(data);
   });
 };
-
-
-// const roles = ['mafia', 'doctor', 'police', 'villager', 'villager', 'villager'];
