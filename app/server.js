@@ -70,3 +70,10 @@ io.on('connection', (socket) => {
     console.log(`\t socket.io:: client disconnected ${socket.userid}`);
   });
 });
+
+const chat = io
+  .of('/chat')
+  .on('connection', (socket) => {
+    socket.emit('message', 'welcome to our chat');
+    chat.emit('message', `${socket.userID} has joined.`);
+  });
