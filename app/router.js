@@ -5,6 +5,9 @@ import * as Games from './controllers/game_controller';
 
 const router = Router();
 
+// router.post('/signin', Users.signin);
+// router.post('/signup', Users.signUp);
+
 router.post('/createplayers', Player.createPlayers);
 
 router.get('/', (req, res) => {
