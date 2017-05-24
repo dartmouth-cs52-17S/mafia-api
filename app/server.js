@@ -15,9 +15,6 @@ dotenv.config({ silent: true });
 const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
-if (process.env.SOCKET) {
-  server.listen(3000);
-}
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/mafia';
@@ -30,9 +27,9 @@ app.use(cors());
 
 const setCustomHeaderFunc = (req, res, next) => {
   if (process.env.LOCAL) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Origin', 'localhost:8080');
   } else {
-    res.header('Access-Control-Allow-Origin', 'http://mafia.surge.sh');
+    res.header('Access-Control-Allow-Origin', 'mafia.surge.sh');
   }
   res.header('Access-Control-Allow-Credentials', true);
   next();
@@ -68,6 +65,10 @@ app.get('/auth/facebook/callback', (req, res, next) => {
 const port = process.env.PORT || 9090;
 if (process.env.SERVER) {
   app.listen(port);
+}
+
+if (process.env.SOCKET) {
+  server.listen(3000);
 }
 
 console.log(`listening on: ${port}`);
