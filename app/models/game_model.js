@@ -14,5 +14,3 @@ const GameSchema = new Schema({
 const GameModel = mongoose.model('Game', GameSchema);
 
 export default GameModel;
-
-// action (heal, vote, kill, detect, )
