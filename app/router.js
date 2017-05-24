@@ -28,9 +28,11 @@ router.get('/players', (req, res) => {
 
 router.post('/games', requireAuth, Games.createGame);
 
-router.put('/games', Games.updatePlayers);
+router.put('/games', requireAuth, Games.updatePlayers);
 
 router.get('/games', Games.getGames);
+
+router.get('/game/:id', Games.getGame);
 
 router.get('/players/:id', (req, res) => {
   Player.getPlayer(req, res);

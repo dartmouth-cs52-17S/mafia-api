@@ -6,13 +6,18 @@ import mongoose from 'mongoose';
 import socketio from 'socket.io';
 import http from 'http';
 import uuid from 'uuid';
+import dotenv from 'dotenv';
 import apiRouter from './router';
+
+dotenv.config({ silent: true });
 
 // initialize
 const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
-server.listen(3000);
+if (process.env.SOCKET) {
+  server.listen(3000);
+}
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/mafia';
@@ -57,7 +62,9 @@ app.get('/auth/facebook/callback', (req, res, next) => {
 // START THE SERVER
 // =============================================================================
 const port = process.env.PORT || 9090;
-app.listen(port);
+if (process.env.SERVER) {
+  app.listen(port);
+}
 
 console.log(`listening on: ${port}`);
 
