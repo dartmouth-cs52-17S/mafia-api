@@ -28,7 +28,7 @@ router.get('/players', (req, res) => {
 
 router.post('/games', requireAuth, Games.createGame);
 
-router.put('/games', Games.updatePlayers);
+router.put('/games', requireAuth, Games.updatePlayers);
 
 router.get('/games', Games.getGames);
 
