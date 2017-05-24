@@ -1,12 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
-import Player from './player_model';
 
 const GameSchema = new Schema({
   currentGameStage: Number,
   currentStageStartTime: Date,
   creator: String,
-  players: [Schema.types.objectID],
-
+  players: [String], // [ user1,  user2, user3 ]
 }, {
   toJSON: {
     virtuals: true,

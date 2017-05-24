@@ -1,10 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
-import User from './user_model';
-import Game from './game_model';
 
 const PlayerSchema = new Schema({
-  game: Game.types.objectID,
-  user: User.types.objectID,
+  game: { type: Schema.types.objectID, ref: 'Game' },
+  user: { type: Schema.types.objectID, ref: 'User' },
   status: { type: Boolean, default: true },
   role: String,
 }, {

@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema({
-  username: { type: String, unique: true, lowercase: true },
+  name: String,
+  facebookID: { type: String, unique: true, lowercase: true },
   wins: Number,
   losses: Number,
   pic: String,

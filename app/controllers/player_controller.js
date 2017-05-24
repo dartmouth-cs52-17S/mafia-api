@@ -24,12 +24,12 @@ const createPlayer = (userId, gameId, role) => {
   });
 };
 
-export const createPlayers = (currGameId, userIds) => {
+export const createPlayers = (req, res) => {
   const roles = ['mafia', 'doctor', 'police', 'villager', 'villager', 'villager'];
   const shuffledRoles = shuffle(roles);
-  Promise.all(shuffledRoles.map((role, idx) => { return createPlayer(userIds[idx], currGameId, role); }))
+  Promise.all(shuffledRoles.map((role, idx) => { return createPlayer(req.body.userId[idx], req.body.gameId, role); }))
   .then((players) => {
-    return players;
+    res.send(players);
   })
   .catch((err) => {
     console.log(err);
