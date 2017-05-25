@@ -27,9 +27,9 @@ app.use(cors());
 
 const setCustomHeaderFunc = (req, res, next) => {
   if (process.env.LOCAL) {
-    res.header('Access-Control-Allow-Origin', 'localhost:8080');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
   } else {
-    res.header('Access-Control-Allow-Origin', 'mafia.surge.sh');
+    res.header('Access-Control-Allow-Origin', 'http://mafia.surge.sh');
   }
   res.header('Access-Control-Allow-Credentials', true);
   next();
