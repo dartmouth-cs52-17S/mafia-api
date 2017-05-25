@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import socketioJwt from 'socketio-jwt';
 
 import apiRouter from './router';
+import User from './models/user_model';
 
 dotenv.config({ silent: true });
 
@@ -92,16 +93,23 @@ const chat = io
     timeout: 15000,
   })).on('authenticated', (socket) => {
     // figure out how to use token to figure out user?
-    socket.userID = uuid();
-    console.log(`UserID ${socket.userID} has joined the chat room.`);
-    socket.emit('message', 'welcome to our chat!');
-    chat.emit('message', `${socket.userID} has joined.`);
+    let username = '';
+    User.findById(socket.decoded_token.sub)
+      .then((user) => {
+        username = user.name;
+        console.log(`${username} has joined the chat room`);
+        chat.emit('notif', `${username} has joined.`);
+      });
 
     socket.on('message', (msg) => {
-      console.log(`message received: ${msg.text}`);
+      console.log(`message received from ${username}: ${msg.text}`);
+      chat.emit('message', {
+        sender: username,
+        text: msg.text,
+      });
     });
 
     socket.on('disconnect', () => {
-      console.log(`UserID ${socket.userID} has left the chat room.`);
+      console.log(`${username} has left the chat room.`);
     });
   });
