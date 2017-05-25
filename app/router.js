@@ -6,8 +6,6 @@ import { requireAuth } from './services/passport';
 
 const router = Router();
 
-router.post('/createplayers', Player.createPlayers);
-
 router.get('/', (req, res) => {
   res.json({ message: 'welcome to our mafia game api!' });
 });
@@ -33,6 +31,8 @@ router.put('/games', requireAuth, Games.updatePlayers);
 router.get('/games', Games.getGames);
 
 router.get('/game/:id', Games.getGame);
+
+router.post('/players', Player.createPlayers);
 
 router.get('/players/:id', (req, res) => {
   Player.getPlayer(req, res);

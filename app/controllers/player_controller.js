@@ -27,7 +27,7 @@ const createPlayer = (userId, gameId, role) => {
 export const createPlayers = (req, res) => {
   const roles = ['mafia', 'doctor', 'police', 'villager', 'villager', 'villager'];
   const shuffledRoles = shuffle(roles);
-  Promise.all(shuffledRoles.map((role, idx) => { return createPlayer(req.body.userId[idx], req.body.gameId, role); }))
+  Promise.all(shuffledRoles.map((role, idx) => { return createPlayer(req.body.userIds[idx], req.body.gameId, role); }))
   .then((players) => {
     res.send(players);
   })
