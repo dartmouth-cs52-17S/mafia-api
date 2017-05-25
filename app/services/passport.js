@@ -15,9 +15,6 @@ const jwtOptions = {
 
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  console.log('JwtStrategy');
-  console.log(payload.sub);
-
   // See if the user ID in the payload exists in our database
   // If it does, call 'done' with that other
   // otherwise, call done without a user object
