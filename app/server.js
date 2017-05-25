@@ -105,7 +105,7 @@ const chat = io
       console.log(`message received from ${username}: ${msg.text}`);
       chat.emit('message', {
         sender: username,
-        message: msg,
+        text: msg.text,
       });
     });
 
