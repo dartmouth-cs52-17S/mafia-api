@@ -7,6 +7,8 @@ import socketio from 'socket.io';
 import http from 'http';
 import uuid from 'uuid';
 import dotenv from 'dotenv';
+import socketioJwt from 'socketio-jwt';
+
 import apiRouter from './router';
 
 dotenv.config({ silent: true });
@@ -85,7 +87,11 @@ io.on('connection', (socket) => {
 
 const chat = io
   .of('/chat')
-  .on('connection', (socket) => {
+  .on('connection', socketioJwt.authorize({
+    secret: process.env.AUTH_SECRET,
+    timeout: 15000,
+  })).on('authenticated', (socket) => {
+    // figure out how to use token to figure out user?
     socket.userID = uuid();
     console.log(`UserID ${socket.userID} has joined the chat room.`);
     socket.emit('message', 'welcome to our chat!');
