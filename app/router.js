@@ -32,6 +32,6 @@ router.get('/games', Games.getGames);
 
 router.post('/players', Player.createPlayers);
 
-router.get('/players/:id', Player.getPlayer);
+router.get('/player/:id', Player.getPlayer);
 
 export default router;
