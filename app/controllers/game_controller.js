@@ -24,7 +24,7 @@ export const updatePlayers = (req, res) => {
       console.log('user was creator');
       res.send(game.players);
     } else {
-      game.players.push({ id: `${req.user._id}`, name: `${req.user.name}` });
+      game.players = [...game.players, req.user._id];
       console.log(`players array is ${game.players}`);
       game.save()
       .then((response) => {
@@ -35,15 +35,18 @@ export const updatePlayers = (req, res) => {
         res.sendStatus(500);
       });
     }
-  });
+  }).catch((error) => { console.log(error); });
 };
 
 export const getGame = (req, res) => {
   Game.findById(req.params.id)
   .populate('players')
   .exec((err, game) => {
-    if (err) console.log(err);
-    res.send({ id: game.id, players: game.players, creator: game.creator });
+    if (err) {
+      console.log(err);
+    } else if (game) {
+      res.send({ id: game.id, players: game.players, creator: game.creator });
+    }
   });
 };
 
