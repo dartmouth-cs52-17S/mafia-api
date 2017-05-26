@@ -18,7 +18,7 @@ router.get('/user/:id', Users.getUser);
 
 router.post('/signin', Users.authUser);
 
-router.get('/players', Player.getPlayers);
+router.get('/players/:gameID', Player.getPlayers);
 
 // router.put('/users', Users.assignRoles);
 
