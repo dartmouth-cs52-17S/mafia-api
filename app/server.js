@@ -98,9 +98,13 @@ const chat = io
         chat.emit('notif', `${username} has joined.`);
       });
 
+    socket.on('room', (room) => {
+      socket.join(room);
+    });
+
     socket.on('message', (msg) => {
-      console.log(`message received from ${username}: ${msg.text}`);
-      chat.emit('message', {
+      console.log(`message received from ${username} in ${msg.room}: ${msg.text}`);
+      socket.to(msg.room).emit('message', {
         sender: username,
         text: msg.text,
       });
