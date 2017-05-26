@@ -5,7 +5,6 @@ import path from 'path';
 import mongoose from 'mongoose';
 import socketio from 'socket.io';
 import http from 'http';
-import uuid from 'uuid';
 import dotenv from 'dotenv';
 import socketioJwt from 'socketio-jwt';
 
@@ -77,9 +76,7 @@ if (process.env.SOCKET) {
 console.log(`listening on: ${port}`);
 
 io.on('connection', (socket) => {
-  socket.userID = uuid();
-  socket.emit('connect', { id: socket.userID });
-  console.log(`\t socket.io:: player ${socket.userID} connected`);
+  socket.emit('connect');
 
   socket.on('disconnect', () => {
     console.log(`\t socket.io:: client disconnected ${socket.userid}`);
