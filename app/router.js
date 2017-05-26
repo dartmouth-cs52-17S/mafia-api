@@ -6,8 +6,6 @@ import { requireAuth } from './services/passport';
 
 const router = Router();
 
-router.post('/createplayers', Player.createPlayers);
-
 router.get('/', (req, res) => {
   res.json({ message: 'welcome to our mafia game api!' });
 });
@@ -20,22 +18,20 @@ router.get('/user/:id', Users.getUser);
 
 router.post('/signin', Users.authUser);
 
-router.get('/players', (req, res) => {
-  Player.getPlayers(req, res);
-});
+router.get('/players', Player.getPlayers);
 
 // router.put('/users', Users.assignRoles);
 
 router.post('/games', requireAuth, Games.createGame);
 
-router.put('/games', requireAuth, Games.updatePlayers);
-
-router.get('/games', Games.getGames);
+router.put('/game/:id', requireAuth, Games.updatePlayers);
 
 router.get('/game/:id', Games.getGame);
 
-router.get('/players/:id', (req, res) => {
-  Player.getPlayer(req, res);
-});
+router.get('/games', Games.getGames);
+
+router.post('/players', Player.createPlayers);
+
+router.get('/players/:id', Player.getPlayer);
 
 export default router;

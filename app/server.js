@@ -5,9 +5,11 @@ import path from 'path';
 import mongoose from 'mongoose';
 import socketio from 'socket.io';
 import http from 'http';
-import uuid from 'uuid';
 import dotenv from 'dotenv';
+import socketioJwt from 'socketio-jwt';
+
 import apiRouter from './router';
+import User from './models/user_model';
 
 dotenv.config({ silent: true });
 
@@ -74,9 +76,7 @@ if (process.env.SOCKET) {
 console.log(`listening on: ${port}`);
 
 io.on('connection', (socket) => {
-  socket.userID = uuid();
-  socket.emit('connect', { id: socket.userID });
-  console.log(`\t socket.io:: player ${socket.userID} connected`);
+  socket.emit('connect');
 
   socket.on('disconnect', () => {
     console.log(`\t socket.io:: client disconnected ${socket.userid}`);
@@ -85,17 +85,28 @@ io.on('connection', (socket) => {
 
 const chat = io
   .of('/chat')
-  .on('connection', (socket) => {
-    socket.userID = uuid();
-    console.log(`UserID ${socket.userID} has joined the chat room.`);
-    socket.emit('message', 'welcome to our chat!');
-    chat.emit('message', `${socket.userID} has joined.`);
+  .on('connection', socketioJwt.authorize({
+    secret: process.env.AUTH_SECRET,
+    timeout: 15000,
+  })).on('authenticated', (socket) => {
+    // figure out how to use token to figure out user?
+    let username = '';
+    User.findById(socket.decoded_token.sub)
+      .then((user) => {
+        username = user.name;
+        console.log(`${username} has joined the chat room`);
+        chat.emit('notif', `${username} has joined.`);
+      });
 
     socket.on('message', (msg) => {
-      console.log(`message received: ${msg.text}`);
+      console.log(`message received from ${username}: ${msg.text}`);
+      chat.emit('message', {
+        sender: username,
+        text: msg.text,
+      });
     });
 
     socket.on('disconnect', () => {
-      console.log(`UserID ${socket.userID} has left the chat room.`);
+      console.log(`${username} has left the chat room.`);
     });
   });

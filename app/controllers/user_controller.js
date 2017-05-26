@@ -6,12 +6,10 @@ import User from '../models/user_model';
 dotenv.config({ silent: true });
 
 export const authUser = (req, res) => {
-  console.log('authUSer');
   // res.send({ token: tokenForUser(req.body.token) });
   FB.api('/me', { access_token: req.body.authData.accessToken }, (response) => {
     User.findOne({ name: response.name }, (err, data) => {
       if (!err && !data) {
-        console.log(response);
         const user = new User();
         user.name = response.name;
         user.facebookID = response.id;
@@ -25,7 +23,6 @@ export const authUser = (req, res) => {
         user.roundsAsDoctor = 0;
         user.save()
           .then((result) => {
-            console.log(tokenForUser(user._id));
             res.send({ token: tokenForUser(user._id), user });
           })
           .catch((error) => {
@@ -63,7 +60,6 @@ export const getUser = (req, res) => {
 
 // encodes a new token for a user object
 function tokenForUser(user) {
-  console.log(user);
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user, iat: timestamp }, process.env.AUTH_SECRET);
 }
