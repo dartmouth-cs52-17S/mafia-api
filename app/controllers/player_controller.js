@@ -1,4 +1,5 @@
 import Player from '../models/player_model';
+import User from '../models/user_model';
 
 // from stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 export const shuffle = (roles) => {
@@ -16,18 +17,20 @@ export const shuffle = (roles) => {
 
 const createPlayer = (userId, gameId, role) => {
   return new Promise((resolve, reject) => {
-    const player = new Player({ user: userId, game: gameId, role });
-    player.save((err, result) => {
-      if (err) return reject(err);
-      return resolve(result);
-    });
+    User.findById(userId).then((user) => {
+      const player = new Player({ user: userId, game: gameId, name: user.name, role });
+      player.save().then((result) => {
+        return resolve(result);
+      });
+    }).catch((err) => { return reject(err); });
   });
 };
 
 export const createPlayers = (req, res) => {
+  console.log(req.body.userIds);
   const roles = ['mafia', 'doctor', 'police', 'villager', 'villager', 'villager'];
   const shuffledRoles = shuffle(roles);
-  Promise.all(shuffledRoles.map((role, idx) => { return createPlayer(req.body.userIds[idx], req.body.gameId, role); }))
+  Promise.all(req.body.userIds.map((userId, idx) => { return createPlayer(userId, req.body.gameId, shuffledRoles[idx]); }))
   .then((players) => {
     res.send(players);
   })
@@ -37,7 +40,7 @@ export const createPlayers = (req, res) => {
 };
 
 export const getPlayers = (req, res) => {
-  Player.find({}).then((data) => {
+  Player.find({ game: req.params.gameID }).then((data) => {
     res.send(data);
   });
 };
