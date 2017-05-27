@@ -96,6 +96,9 @@ const chat = io
         username = user.name;
         console.log(`${username} has joined the chat room`);
         chat.emit('notif', `${username} has joined.`);
+      })
+      .catch((error) => {
+        console.log(error);
       });
 
     socket.on('room', (room) => {
