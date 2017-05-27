@@ -94,20 +94,22 @@ const chat = io
     User.findById(socket.decoded_token.sub)
       .then((user) => {
         username = user.name;
-        console.log(`${username} has joined the chat room`);
-        chat.emit('notif', `${username} has joined.`);
+        console.log(`${username} has authenticated and connected to chat`);
+        // don't need this, not until after joining room
+        chat.emit('notif', `${username} has connected to chat.`);
       })
       .catch((error) => {
         console.log(error);
       });
 
     socket.on('room', (room) => {
+      console.log(`${username} joined room ${room}.`);
       socket.join(room);
     });
 
     socket.on('message', (msg) => {
       console.log(`message received from ${username} in ${msg.room}: ${msg.text}`);
-      socket.to(msg.room).emit('message', {
+      chat.to(msg.room).emit('message', {
         sender: username,
         text: msg.text,
       });
