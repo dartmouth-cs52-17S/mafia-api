@@ -34,4 +34,9 @@ router.post('/players', Player.createPlayers);
 
 router.get('/player/:id', Player.getPlayer);
 
+router.put('/players/kill/:id', Player.killPlayer);
+
+router.put('/players/heal/:id', Player.healPlayer);
+
+
 export default router;

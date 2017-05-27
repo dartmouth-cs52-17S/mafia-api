@@ -16,6 +16,18 @@ export const createGame = (req, res, next) => {
   });
 };
 
+// export const getPlayer = (req, res) => {
+//   Game.findById(req.username).then((data) => {
+//     res.send(data);
+//   });
+// };
+
+export const getGames = (req, res) => {
+  Game.find({}).then((data) => {
+    res.send(data);
+  });
+};
+
 export const updatePlayers = (req, res) => {
   console.log('updatePlayers');
   Game.findById(req.params.id).then((game) => {
@@ -51,18 +63,6 @@ export const getGame = (req, res) => {
 };
 
 export const getPlayers = (req, res) => {
-  Game.find({}).then((data) => {
-    res.send(data);
-  });
-};
-
-// export const getPlayer = (req, res) => {
-//   Game.findById(req.username).then((data) => {
-//     res.send(data);
-//   });
-// };
-
-export const getGames = (req, res) => {
   Game.find({}).then((data) => {
     res.send(data);
   });

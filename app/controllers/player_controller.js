@@ -53,6 +53,26 @@ export const getPlayer = (req, res) => {
   });
 };
 
+export const healPlayer = (req, res) => {
+  Player.findByIdAndUpdate(req.params.id, { status: true })
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((error) => {
+    res.status(500).json({ error });
+  });
+};
+
+export const killPlayer = (req, res) => {
+  Player.findByIdAndUpdate(req.params.id, { status: false })
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((error) => {
+    res.status(500).json({ error });
+  });
+};
+
 export const updatePlayer = (req, res) => {
   Player.findByIdAndUpdate(req.body.userId, req.body)
   .then((result) => {
