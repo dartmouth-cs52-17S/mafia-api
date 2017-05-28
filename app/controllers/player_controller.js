@@ -28,7 +28,6 @@ const createPlayer = (userId, gameId, role) => {
 };
 
 export const createPlayers = (req, res) => {
-  console.log(req.body.userIds);
   const roles = ['mafia', 'doctor', 'police', 'villager', 'villager', 'villager'];
   const shuffledRoles = shuffle(roles);
   Promise.all(req.body.userIds.map((userId, idx) => { return createPlayer(userId, req.body.gameId, shuffledRoles[idx]); }))
@@ -42,12 +41,12 @@ export const createPlayers = (req, res) => {
 
 export const getPlayers = (req, res) => {
   Player.find({ game: req.params.gameID }).then((data) => {
-    console.log(`getPlayers data is ${data}`);
     res.json(data);
   });
 };
 
 export const getPlayer = (req, res) => {
+  console.log('getPlayer');
   Player.findById(req.params.id).then((data) => {
     res.send(data);
   });

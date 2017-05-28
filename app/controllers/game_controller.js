@@ -51,6 +51,8 @@ export const updatePlayers = (req, res) => {
 };
 
 export const getGame = (req, res) => {
+  console.log('getGame');
+  console.log(req.params.id);
   Game.findById(req.params.id)
   .populate('players')
   .exec((err, game) => {
