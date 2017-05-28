@@ -30,7 +30,7 @@ router.get('/game/:id', Games.getGame);
 
 router.get('/games', Games.getGames);
 
-router.post('/players', Player.createPlayers);
+router.post('/players/:gameID', Player.createPlayers);
 
 router.get('/player/:id', Player.getPlayer);
 

@@ -1,5 +1,6 @@
 import Player from '../models/player_model';
 import User from '../models/user_model';
+import Game from '../models/game_model';
 
 // from stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 export const shuffle = (roles) => {
@@ -17,13 +18,25 @@ export const shuffle = (roles) => {
 
 // Thanks to Ben Packer for help on the following two functions
 const createPlayer = (userId, gameId, role) => {
+  console.log('createPlayer');
   return new Promise((resolve, reject) => {
-    User.findById(userId).then((user) => {
-      const player = new Player({ user: userId, game: gameId, name: user.name, role });
-      player.save().then((result) => {
-        return resolve(result);
-      });
-    }).catch((err) => { return reject(err); });
+    console.log('about to findById');
+    Game.findById(gameId).then((game) => {
+      if (game.players.some((e) => {
+        console.log(e.id);
+        console.log(userId);
+        return (e.id === userId);
+      })) {
+        return resolve();
+      } else {
+        User.findById(userId).then((user) => {
+          const player = new Player({ user: userId, game: gameId, name: user.name, role });
+          player.save().then((result) => {
+            return resolve(result);
+          });
+        }).catch((err) => { return reject(err); });
+      }
+    });
   });
 };
 
