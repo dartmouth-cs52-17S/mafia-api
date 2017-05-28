@@ -6,7 +6,6 @@ const PlayerSchema = new Schema({
   // user: { type: Schema.Types.ObjectId, ref: 'User' },
   game: String,
   user: String,
-  status: { type: Boolean, default: true },
   role: String,
   name: String,
 }, {

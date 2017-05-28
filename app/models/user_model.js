@@ -11,6 +11,7 @@ const UserSchema = new Schema({
   roundsAsVillager: Number,
   roundsAsDoctor: Number,
   roundsAsPolice: Number,
+  status: { type: Boolean, default: true },
 }, {
   toJSON: {
     virtuals: true,

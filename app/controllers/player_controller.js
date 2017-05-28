@@ -56,6 +56,7 @@ export const getPlayer = (req, res) => {
 export const healPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: true })
   .then((result) => {
+    console.log(req.params.id);
     res.send(result);
   })
   .catch((error) => {
@@ -66,6 +67,8 @@ export const healPlayer = (req, res) => {
 export const killPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: false })
   .then((result) => {
+    console.log(req.params.id);
+    console.log(result);
     res.send(result);
   })
   .catch((error) => {
