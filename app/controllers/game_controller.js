@@ -68,5 +68,19 @@ export const getGame = (req, res) => {
 export const getPlayers = (req, res) => {
   Game.find({}).then((data) => {
     res.send(data);
-  });
+  }).catch((err) => { console.log(err); });
+};
+
+export const updateStage = (req, res) => {
+  console.log('updateStage');
+  Game.findById(req.params.id).then((game) => {
+    if (req.body.stage) {
+      game.currentGameStage = req.body.stage;
+    } else {
+      game.currentGameStage += 1;
+    }
+    game.save().then((result) => {
+      res.json(result);
+    }).catch((err) => { console.log(err); });
+  }).catch((err) => { console.log(err); });
 };

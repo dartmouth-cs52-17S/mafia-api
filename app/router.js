@@ -22,6 +22,8 @@ router.post('/signin', Users.authUser);
 
 router.post('/games', requireAuth, Games.createGame);
 
+router.put('/game/stage/:id', Games.updateStage);
+
 router.put('/game/:id', requireAuth, Games.updatePlayers);
 
 router.get('/game/:id', Games.getGame);
