@@ -60,6 +60,14 @@ export const getPlayers = (req, res) => {
   }).catch((err) => { console.log(err); });
 };
 
+export const endGame = (id) => {
+  console.log('update ifOver');
+  return Game.findById(id).then((game) => {
+    game.isOver = true;
+    return game.save();
+  });
+};
+
 export const updateStage = (id, stage) => {
   console.log('updateStage');
   return Game.findById(id).then((game) => {
