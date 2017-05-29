@@ -40,4 +40,6 @@ router.put('/players/kill/:id', Player.killPlayer);
 
 router.put('/players/heal/:id', Player.healPlayer);
 
+router.put('/player/vote/:id', Player.voteKill);
+
 export default router;
