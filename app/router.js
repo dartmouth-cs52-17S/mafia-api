@@ -18,8 +18,6 @@ router.get('/user/:id', Users.getUser);
 
 router.post('/signin', Users.authUser);
 
-router.get('/players/:gameID', Player.getPlayers);
-
 // router.put('/users', Users.assignRoles);
 
 router.post('/games', requireAuth, Games.createGame);
@@ -29,6 +27,8 @@ router.put('/game/:id', requireAuth, Games.updatePlayers);
 router.get('/game/:id', Games.getGame);
 
 router.get('/games', Games.getGames);
+
+router.get('/players/:gameID', Player.getPlayers);
 
 router.post('/players/:gameID', Player.createPlayers);
 

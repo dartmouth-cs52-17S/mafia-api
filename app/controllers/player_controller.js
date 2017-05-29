@@ -1,6 +1,5 @@
 import Player from '../models/player_model';
 import User from '../models/user_model';
-import Game from '../models/game_model';
 
 // from stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 export const shuffle = (roles) => {
@@ -18,23 +17,18 @@ export const shuffle = (roles) => {
 
 // Thanks to Ben Packer for help on the following two functions
 const createPlayer = (userId, gameId, role) => {
-  console.log('createPlayer');
   return new Promise((resolve, reject) => {
-    console.log('about to findById');
-    Game.findById(gameId).then((game) => {
-      if (game.players.some((e) => {
-        console.log(e.id);
-        console.log(userId);
-        return (e.id === userId);
-      })) {
-        return resolve();
-      } else {
+    Player.findOne({ user: userId, game: gameId }, (err, res) => {
+      if (!res) {
         User.findById(userId).then((user) => {
+          console.log(user);
           const player = new Player({ user: userId, game: gameId, name: user.name, role });
           player.save().then((result) => {
             return resolve(result);
           });
         }).catch((err) => { return reject(err); });
+      } else {
+        return resolve();
       }
     });
   });
@@ -68,7 +62,7 @@ export const getPlayer = (req, res) => {
 export const healPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: true })
   .then((result) => {
-    res.send(result);
+    res.json(result);
   })
   .catch((error) => {
     res.status(500).json({ error });
@@ -78,7 +72,7 @@ export const healPlayer = (req, res) => {
 export const killPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: false })
   .then((result) => {
-    res.send(result);
+    res.json(result);
   })
   .catch((error) => {
     res.status(500).json({ error });
