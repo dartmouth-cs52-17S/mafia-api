@@ -9,6 +9,7 @@ const PlayerSchema = new Schema({
   status: { type: Boolean, default: true },
   role: String,
   name: String,
+  voteCount: Number,
 }, {
   toJSON: {
     virtuals: true,

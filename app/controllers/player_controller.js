@@ -81,6 +81,16 @@ export const killPlayer = (req, res) => {
   });
 };
 
+export const voteKill = (req, res) => {
+  Player.findByIdAndUpdate(req.params.id, { $inc: { voteCount: 1 } })
+  .then((result) => {
+    res.json(result);
+  })
+.catch((error) => {
+  res.status(500).json({ error });
+});
+};
+
 export const updatePlayer = (req, res) => {
   Player.findByIdAndUpdate(req.body.userId, req.body)
   .then((result) => {
