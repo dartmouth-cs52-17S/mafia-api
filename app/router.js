@@ -18,11 +18,11 @@ router.get('/user/:id', Users.getUser);
 
 router.post('/signin', Users.authUser);
 
-router.get('/players/:gameID', Player.getPlayers);
-
 // router.put('/users', Users.assignRoles);
 
 router.post('/games', requireAuth, Games.createGame);
+
+router.put('/game/stage/:id', Games.updateStage);
 
 router.put('/game/:id', requireAuth, Games.updatePlayers);
 
@@ -30,13 +30,14 @@ router.get('/game/:id', Games.getGame);
 
 router.get('/games', Games.getGames);
 
-router.post('/players', Player.createPlayers);
+router.get('/players/:gameID', Player.getPlayers);
+
+router.post('/players/:gameID', Player.createPlayers);
 
 router.get('/player/:id', Player.getPlayer);
 
 router.put('/players/kill/:id', Player.killPlayer);
 
 router.put('/players/heal/:id', Player.healPlayer);
-
 
 export default router;
