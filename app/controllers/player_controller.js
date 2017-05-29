@@ -55,7 +55,7 @@ export const getPlayers = (req, res) => {
 export const getPlayer = (req, res) => {
   console.log('getPlayer');
   Player.findById(req.params.id).then((data) => {
-    res.send(data);
+    res.json(data);
   });
 };
 
