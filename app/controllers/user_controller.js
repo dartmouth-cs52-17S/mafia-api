@@ -45,12 +45,16 @@ export const getNameFromFBID = (req, res) => {
 export const getUsers = (req, res) => {
   User.find({}).then((data) => {
     res.send(data);
+  }).catch((err) => {
+    res.send(err);
   });
 };
 
 export const getUser = (req, res) => {
   User.findById(req.params.id).then((data) => {
     res.send(data);
+  }).catch((err) => {
+    res.send(err);
   });
 };
 

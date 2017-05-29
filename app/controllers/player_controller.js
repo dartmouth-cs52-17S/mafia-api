@@ -18,17 +18,23 @@ export const shuffle = (roles) => {
 // Thanks to Ben Packer for help on the following two functions
 const createPlayer = (userId, gameId, role) => {
   return new Promise((resolve, reject) => {
-    User.findById(userId).then((user) => {
-      const player = new Player({ user: userId, game: gameId, name: user.name, role });
-      player.save().then((result) => {
-        return resolve(result);
-      });
-    }).catch((err) => { return reject(err); });
+    Player.findOne({ user: userId, game: gameId }, (err, res) => {
+      if (!res) {
+        User.findById(userId).then((user) => {
+          console.log(user);
+          const player = new Player({ user: userId, game: gameId, name: user.name, role });
+          player.save().then((result) => {
+            return resolve(result);
+          });
+        }).catch((err) => { return reject(err); });
+      } else {
+        return resolve();
+      }
+    });
   });
 };
 
 export const createPlayers = (req, res) => {
-  console.log(req.body.userIds);
   const roles = ['mafia', 'doctor', 'police', 'villager', 'villager', 'villager'];
   const shuffledRoles = shuffle(roles);
   Promise.all(req.body.userIds.map((userId, idx) => { return createPlayer(userId, req.body.gameId, shuffledRoles[idx]); }))
@@ -42,12 +48,12 @@ export const createPlayers = (req, res) => {
 
 export const getPlayers = (req, res) => {
   Player.find({ game: req.params.gameID }).then((data) => {
-    console.log(`getPlayers data is ${data}`);
     res.json(data);
   });
 };
 
 export const getPlayer = (req, res) => {
+  console.log('getPlayer');
   Player.findById(req.params.id).then((data) => {
     res.send(data);
   });
@@ -56,7 +62,7 @@ export const getPlayer = (req, res) => {
 export const healPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: true })
   .then((result) => {
-    res.send(result);
+    res.json(result);
   })
   .catch((error) => {
     res.status(500).json({ error });
@@ -66,7 +72,7 @@ export const healPlayer = (req, res) => {
 export const killPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: false })
   .then((result) => {
-    res.send(result);
+    res.json(result);
   })
   .catch((error) => {
     res.status(500).json({ error });
