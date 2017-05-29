@@ -19,16 +19,18 @@ export const shuffle = (roles) => {
 const createPlayer = (userId, gameId, role) => {
   return new Promise((resolve, reject) => {
     Player.findOne({ user: userId, game: gameId }, (err, res) => {
+      console.log(res);
       if (!res) {
         User.findById(userId).then((user) => {
           console.log(user);
           const player = new Player({ user: userId, game: gameId, name: user.name, role });
           player.save().then((result) => {
+            console.log(result);
             return resolve(result);
           });
         }).catch((err) => { return reject(err); });
       } else {
-        return resolve();
+        return resolve(res);
       }
     });
   });
