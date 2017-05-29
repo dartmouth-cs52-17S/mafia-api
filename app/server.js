@@ -7,10 +7,11 @@ import socketio from 'socket.io';
 import http from 'http';
 import dotenv from 'dotenv';
 import socketioJwt from 'socketio-jwt';
-import * as Games from './controllers/game_controller';
 
 import apiRouter from './router';
+import * as Games from './controllers/game_controller';
 import User from './models/user_model';
+import * as Chat from './controllers/chat_controller';
 
 dotenv.config({ silent: true });
 
@@ -97,40 +98,46 @@ io.on('connection', (socket) => {
   });
 });
 
+// Chat socket workings
 const chat = io
   .of('/chat')
   .on('connection', socketioJwt.authorize({
     secret: process.env.AUTH_SECRET,
     timeout: 15000,
   })).on('authenticated', (socket) => {
-    // figure out how to use token to figure out user?
     let username = '';
     User.findById(socket.decoded_token.sub)
       .then((user) => {
         username = user.name;
         console.log(`${username} has authenticated and connected to chat`);
-        // don't need this, not until after joining room
-        chat.emit('notice', `${username} has connected to chat.`);
+
+        socket.on('room', (room) => {
+          console.log(`${username} joined room ${room}.`);
+          socket.join(room);
+          Chat.initChat(room);
+          Chat.addToChat(room, {
+            type: 'notice',
+            text: `${username} has joined chat.`,
+          });
+          chat.to(room).emit('newchat', Chat.returnChat(room)); // change to emit newchat
+        });
+
+        socket.on('message', (msg) => {
+          console.log(`message received from ${username} in ${msg.room}: ${msg.text}`);
+          Chat.addToChat(msg.room, {
+            type: 'message',
+            sender: username,
+            text: msg.text,
+          });
+          chat.to(msg.room).emit('newchat', Chat.returnChat(msg.room));
+        });
+
+        // let room know about disconnects too
+        socket.on('disconnect', () => {
+          console.log(`${username} has left the chat room.`);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-
-    socket.on('room', (room) => {
-      console.log(`${username} joined room ${room}.`);
-      socket.join(room);
-      chat.to(room).emit('notice', `${username} joined this room.`);
-    });
-
-    socket.on('message', (msg) => {
-      console.log(`message received from ${username} in ${msg.room}: ${msg.text}`);
-      chat.to(msg.room).emit('message', {
-        sender: username,
-        text: msg.text,
-      });
-    });
-
-    socket.on('disconnect', () => {
-      console.log(`${username} has left the chat room.`);
-    });
   });

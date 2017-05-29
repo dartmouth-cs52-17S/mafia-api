@@ -81,6 +81,20 @@ export const killPlayer = (req, res) => {
   });
 };
 
+export const voteKill = (req, res) => {
+  Player.findById(req.params.id).then((player) => {
+    player.voteCount += 1;
+    player.save().then((response) => {
+      res.json(response);
+    }).catch((error) => {
+      res.status(500).json({ error });
+    });
+  })
+.catch((error) => {
+  res.status(500).json({ error });
+});
+};
+
 export const updatePlayer = (req, res) => {
   Player.findByIdAndUpdate(req.body.userId, req.body)
   .then((result) => {
