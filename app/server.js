@@ -96,7 +96,7 @@ const chat = io
         username = user.name;
         console.log(`${username} has authenticated and connected to chat`);
         // don't need this, not until after joining room
-        chat.emit('notif', `${username} has connected to chat.`);
+        chat.emit('notice', `${username} has connected to chat.`);
       })
       .catch((error) => {
         console.log(error);
@@ -105,6 +105,7 @@ const chat = io
     socket.on('room', (room) => {
       console.log(`${username} joined room ${room}.`);
       socket.join(room);
+      chat.to(room).emit('notice', `${username} joined this room.`);
     });
 
     socket.on('message', (msg) => {
