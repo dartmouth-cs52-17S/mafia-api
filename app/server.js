@@ -79,10 +79,16 @@ console.log(`listening on: ${port}`);
 io.on('connection', (socket) => {
   socket.emit('connect');
 
+  socket.on('join', (gameID) => {
+    console.log(`joined game ${gameID}`);
+    socket.join(gameID);
+  });
+
   socket.on('updateStage', (params) => {
+    console.log('updateStage');
     Games.updateStage(params.id, params.stage)
     .then((result) => {
-      socket.emit('fetchAll');
+      io.sockets.in(params.id).emit('fetchAll', null);
     }).catch((err) => { console.log(err); });
   });
 

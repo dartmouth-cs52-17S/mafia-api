@@ -28,7 +28,7 @@ export const getGames = (req, res) => {
 };
 
 export const updatePlayers = (req, res) => {
-  console.log('updatePlayers');
+  console.log(`updatePlayers ${req.params.id}`);
   Game.findById(req.params.id).then((game) => {
     if (game.creator === `${req.user._id}`) {
       res.send(game.players);
