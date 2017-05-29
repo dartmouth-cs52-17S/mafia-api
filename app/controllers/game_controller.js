@@ -16,12 +16,6 @@ export const createGame = (req, res, next) => {
   });
 };
 
-// export const getPlayer = (req, res) => {
-//   Game.findById(req.username).then((data) => {
-//     res.send(data);
-//   });
-// };
-
 export const getGames = (req, res) => {
   Game.find({}).then((data) => {
     res.send(data);
@@ -51,8 +45,6 @@ export const updatePlayers = (req, res) => {
 };
 
 export const getGame = (req, res) => {
-  console.log('getGame');
-  console.log('here?');
   console.log(req.params.id);
   Game.findById(req.params.id)
   .populate('players')
