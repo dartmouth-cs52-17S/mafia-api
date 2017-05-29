@@ -7,6 +7,7 @@ import socketio from 'socket.io';
 import http from 'http';
 import dotenv from 'dotenv';
 import socketioJwt from 'socketio-jwt';
+import * as Games from './controllers/game_controller';
 
 import apiRouter from './router';
 import User from './models/user_model';
@@ -77,6 +78,13 @@ console.log(`listening on: ${port}`);
 
 io.on('connection', (socket) => {
   socket.emit('connect');
+
+  socket.on('updateStage', (params) => {
+    Games.updateStage(params.id, params.stage)
+    .then((result) => {
+      socket.emit('fetchAll');
+    }).catch((err) => { console.log(err); });
+  });
 
   socket.on('disconnect', () => {
     console.log(`\t socket.io:: client disconnected ${socket.userid}`);
