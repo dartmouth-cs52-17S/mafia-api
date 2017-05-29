@@ -49,14 +49,14 @@ export const getPlayers = (req, res) => {
 
 export const getPlayer = (req, res) => {
   Player.findById(req.params.id).then((data) => {
-    res.send(data);
+    res.json(data);
   });
 };
 
 export const healPlayer = (req, res) => {
   Player.findByIdAndUpdate(req.params.id, { status: true })
   .then((result) => {
-    res.send(result);
+    res.json(result);
   })
   .catch((error) => {
     res.status(500).json({ error });
