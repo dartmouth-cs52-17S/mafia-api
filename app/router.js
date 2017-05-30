@@ -24,6 +24,8 @@ router.post('/games', requireAuth, Games.createGame);
 
 router.put('/game/stage/:id', Games.updateStage);
 
+router.put('/game/end/:id', Games.endGame);
+
 router.put('/game/:id', requireAuth, Games.updatePlayers);
 
 router.put('/game/night/:id', Games.updateNight);
@@ -43,5 +45,10 @@ router.put('/players/kill/:id', Player.killPlayer);
 router.put('/players/heal/:id', Player.healPlayer);
 
 router.put('/player/vote/:id', Player.voteKill);
+
+
+router.put('/game/selection/:id', Games.tempSelection);
+
+router.put('/game/check/:id', Games.checkSelection);
 
 export default router;
