@@ -7,6 +7,7 @@ export const createGame = (req, res, next) => {
   game.currentGameStage = 0;
   game.players = [req.user._id];
   game.creator = req.user._id;
+  game.isOver = false;
   game.save()
   .then((response) => {
     res.send(response);
@@ -50,7 +51,7 @@ export const getGame = (req, res) => {
       console.log(err);
     } else if (game) {
       console.log(`and the game is ${game}`);
-      res.send({ id: game._id, players: game.players, creator: game.creator, stage: game.currentGameStage });
+      res.send({ isOver: game.isOver, id: game._id, players: game.players, creator: game.creator, stage: game.currentGameStage });
     }
   });
 };
@@ -59,6 +60,18 @@ export const getPlayers = (req, res) => {
   Game.find({}).then((data) => {
     res.send(data);
   }).catch((err) => { console.log(err); });
+};
+
+export const endGame = (req, res) => {
+  console.log('update ifOver');
+  return Game.findById(req.params.id).then((game) => {
+    game.isOver = true;
+    game.save().then((response) => {
+      res.json(response);
+    }).catch((err) => {
+      console.log(err);
+    });
+  });
 };
 
 export const updateStage = (id, stage) => {

@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const GameSchema = new Schema({
   currentGameStage: Number,
   currentStageStartTime: Date,
+  isOver: Boolean,
   creator: String,
   players: [{ type: Schema.Types.ObjectId, ref: 'User' }], // [ user1,  user2, user3 ]
   mafiaSelection: String,
