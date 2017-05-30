@@ -28,8 +28,6 @@ router.put('/game/end/:id', Games.endGame);
 
 router.put('/game/:id', requireAuth, Games.updatePlayers);
 
-router.put('/game/night/:id', Games.updateNight);
-
 router.get('/game/:id', Games.getGame);
 
 router.get('/games', Games.fetchGames);
