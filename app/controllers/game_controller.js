@@ -71,6 +71,7 @@ export const getPlayers = (req, res) => {
   }).catch((err) => { console.log(err); });
 };
 
+
 export const endGame = (req, res) => {
   console.log('update ifOver');
   return Game.findById(req.params.id).then((game) => {
