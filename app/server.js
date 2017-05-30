@@ -117,9 +117,9 @@ const chat = io
           Chat.initChat(room);
           Chat.addToChat(room, {
             type: 'notice',
-            text: `${username} has joined chat.`,
+            text: `${username} joined chat.`,
           });
-          chat.to(room).emit('newchat', Chat.returnChat(room)); // change to emit newchat
+          chat.to(room).emit('newchat', Chat.returnChat(room));
         });
 
         socket.on('message', (msg) => {
