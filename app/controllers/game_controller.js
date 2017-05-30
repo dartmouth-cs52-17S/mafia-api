@@ -1,4 +1,5 @@
 import Game from '../models/game_model';
+import Player from '../models/player_model';
 
 export const createGame = (req, res, next) => {
   console.log('createGame');
@@ -70,4 +71,46 @@ export const updateStage = (id, stage) => {
     }
     return game.save();
   });
+};
+
+
+export const checkSelection = (req, res) => {
+  console.log('checkSelection');
+  return Game.findById(req.params.id).then((game) => {
+    console.log(`MAFIA SELECTION IS ${game.mafiaSelection}`);
+    console.log(`DOCTOR SELECTION IS ${game.doctorSelection}`);
+    if (game.mafiaSelection !== game.doctorSelection) {
+      console.log(`MAFIA SELECTION IS ${game.mafiaSelection}`);
+      Player.findByIdAndUpdate(game.mafiaSelection, { status: false }, { new: true })
+      .then((response) => {
+        console.log(JSON.stringify(response));
+        res.json(response);
+      })
+      .catch((error) => {
+        res.status(500).json({ error });
+      });
+    }
+  });
+};
+
+export const tempSelection = (req, res) => {
+  console.log(`the game id is ${req.params.id}`);
+  Game.findById(req.params.id).then((game) => {
+    if (req.body.type === 'mafiaSelection') {
+      game.mafiaSelection = req.body.selection;
+    } else {
+      game.doctorSelection = req.body.selection;
+    }
+    game.save().then((response) => {
+      console.log(`response is ${response}`);
+      res.json(response);
+    }).catch((error) => {
+      console.log('first one');
+      res.status(500).json({ error });
+    });
+  })
+.catch((error) => {
+  console.log('second one');
+  res.status(500).json({ error });
+});
 };
