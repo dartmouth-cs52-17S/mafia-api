@@ -1,13 +1,13 @@
 import Player from '../models/player_model';
 import User from '../models/user_model';
 
-// from stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+// From stackoverflow: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 export const shuffle = (roles) => {
   let currentIndex = roles.length;
   while (currentIndex !== 0) {
     const randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-    // swap
+    // Swap
     const temp = roles[currentIndex];
     roles[currentIndex] = roles[randomIndex];
     roles[randomIndex] = temp;
@@ -55,7 +55,6 @@ export const getPlayers = (req, res) => {
 };
 
 export const getPlayer = (req, res) => {
-  console.log('getPlayer');
   Player.findById(req.params.id).then((data) => {
     res.json(data);
   });
