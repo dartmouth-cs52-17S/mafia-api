@@ -106,6 +106,7 @@ const chat = io
     timeout: 15000,
   })).on('authenticated', (socket) => {
     let username = '';
+    const rooms = [];
     User.findById(socket.decoded_token.sub)
       .then((user) => {
         username = user.name;
@@ -114,12 +115,13 @@ const chat = io
         socket.on('room', (room) => {
           console.log(`${username} joined room ${room}.`);
           socket.join(room);
+          rooms.push(room);
           Chat.initChat(room);
           Chat.addToChat(room, {
             type: 'notice',
-            text: `${username} has joined chat.`,
+            text: `${username} joined chat.`,
           });
-          chat.to(room).emit('newchat', Chat.returnChat(room)); // change to emit newchat
+          chat.to(room).emit('newchat', Chat.returnChat(room));
         });
 
         socket.on('message', (msg) => {
@@ -131,13 +133,20 @@ const chat = io
           });
           chat.to(msg.room).emit('newchat', Chat.returnChat(msg.room));
         });
-
-        // let room know about disconnects too
-        socket.on('disconnect', () => {
-          console.log(`${username} has left the chat room.`);
-        });
       })
       .catch((error) => {
         console.log(error);
       });
+
+    socket.on('disconnect', () => {
+      console.log(`${username} has left the chat.`);
+      for (let i = 0; i < rooms.length; i += 1) {
+        Chat.addToChat(rooms[i], {
+          type: 'notice',
+          text: `${username} left chat.`,
+        });
+        chat.to(rooms[i])
+          .emit('newchat', Chat.returnChat(rooms[i]));
+      }
+    });
   });
