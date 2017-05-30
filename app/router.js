@@ -32,6 +32,8 @@ router.get('/game/:id', Games.getGame);
 
 router.get('/games', Games.fetchGames);
 
+router.get('./game/:id/remove', Games.deleteGame);
+
 router.get('/players/:gameID', Player.getPlayers);
 
 router.post('/players/:gameID', Player.createPlayers);
