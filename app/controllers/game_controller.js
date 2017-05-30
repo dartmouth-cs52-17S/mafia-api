@@ -59,7 +59,13 @@ export const getGame = (req, res) => {
 };
 
 export const deleteGame = (req, res) => {
-  Game.findByIdAndRemove(req.params.id);
+  Game.findByIdAndRemove({ _id: req.params.id })
+  .then((result) => {
+    res.json({ message: 'Deleted Game' });
+  })
+  .catch((error) => {
+    res.status(500).json({ error });
+  });
 };
 
 export const getPlayers = (req, res) => {
