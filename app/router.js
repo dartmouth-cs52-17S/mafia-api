@@ -30,7 +30,7 @@ router.put('/game/:id', requireAuth, Games.updatePlayers);
 
 router.get('/game/:id', Games.getGame);
 
-router.get('/games', Games.getGames);
+router.get('/games', Games.fetchGames);
 
 router.get('/players/:gameID', Player.getPlayers);
 

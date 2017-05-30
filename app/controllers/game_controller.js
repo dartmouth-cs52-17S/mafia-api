@@ -17,9 +17,12 @@ export const createGame = (req, res, next) => {
   });
 };
 
-export const getGames = (req, res) => {
+export const fetchGames = (req, res) => {
   Game.find({}).then((data) => {
-    res.send(data);
+    console.log(data);
+    res.json(data);
+  }).catch((err) => {
+    console.log(err);
   });
 };
 
@@ -85,7 +88,6 @@ export const updateStage = (id, stage) => {
     return game.save();
   });
 };
-
 
 export const checkSelection = (req, res) => {
   console.log('checkSelection');
