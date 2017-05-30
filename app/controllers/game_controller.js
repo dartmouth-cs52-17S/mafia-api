@@ -18,11 +18,13 @@ export const createGame = (req, res, next) => {
 };
 
 export const fetchGames = (req, res) => {
-  Game.find({}).then((data) => {
-    console.log(data);
-    res.json(data);
-  }).catch((err) => {
-    console.log(err);
+  Game.find({})
+  .populate('players')
+  .exec((err, data) => {
+    if (err) console.log(err);
+    else if (data) {
+      res.json(data);
+    }
   });
 };
 
@@ -57,6 +59,10 @@ export const getGame = (req, res) => {
       res.send({ isOver: game.isOver, id: game._id, players: game.players, creator: game.creator, stage: game.currentGameStage });
     }
   });
+};
+
+export const deleteGame = (req, res) => {
+  Game.findByIdAndRemove(req.params.id);
 };
 
 export const getPlayers = (req, res) => {
