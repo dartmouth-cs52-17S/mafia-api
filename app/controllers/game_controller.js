@@ -42,15 +42,12 @@ export const updatePlayers = (req, res) => {
 };
 
 export const getGame = (req, res) => {
-  console.log(`getGame ${req.params.id}`);
-
   Game.findById(req.params.id)
   .populate('players')
   .exec((err, game) => {
     if (err) {
       console.log(err);
     } else if (game) {
-      console.log(`and the game is ${game}`);
       res.send({ isOver: game.isOver, id: game._id, players: game.players, creator: game.creator, stage: game.currentGameStage });
     }
   });
@@ -122,8 +119,8 @@ export const tempSelection = (req, res) => {
       res.status(500).json({ error });
     });
   })
-.catch((error) => {
-  console.log('second one');
-  res.status(500).json({ error });
-});
+  .catch((error) => {
+    console.log('second one');
+    res.status(500).json({ error });
+  });
 };

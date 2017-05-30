@@ -104,3 +104,16 @@ export const updatePlayer = (req, res) => {
     res.status(500).json({ error });
   });
 };
+
+export const clearVotes = (req, res) => {
+  Player.find({ game: req.params.id }).then((players) => {
+    players.forEach((player) => {
+      player.voteCount = 0;
+      player.save().then((response) => {
+        res.send(response);
+      }).catch((err) => {
+        res.sendStatus(500);
+      });
+    });
+  });
+};
