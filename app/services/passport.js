@@ -5,9 +5,6 @@ import User from '../models/user_model';
 
 dotenv.config({ silent: true });
 
-// options for jwt strategy
-// we'll pass in the jwt in an `authorization` header
-// so passport can find it there
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: process.env.AUTH_SECRET,
@@ -15,9 +12,6 @@ const jwtOptions = {
 
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  // See if the user ID in the payload exists in our database
-  // If it does, call 'done' with that other
-  // otherwise, call done without a user object
   User.findById(payload.sub, (err, user) => {
     if (err) {
       done(err, false);
@@ -29,8 +23,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   });
 });
 
-// Tell passport to use this strategy
 passport.use(jwtLogin);
-
 
 export const requireAuth = passport.authenticate('jwt', { session: false });
