@@ -42,4 +42,8 @@ router.put('/players/heal/:id', Player.healPlayer);
 
 router.put('/player/vote/:id', Player.voteKill);
 
+router.put('/game/selection/:id', Games.tempSelection);
+
+router.put('/game/check/:id', Games.checkSelection);
+
 export default router;
