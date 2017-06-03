@@ -49,7 +49,12 @@ router.put('/players/kill/:id', Player.killPlayer);
 
 router.put('/players/heal/:id', Player.healPlayer);
 
-router.put('/player/vote/:id', Player.voteKill);
+router.put('/players/vote/:id', Player.voteKill);
 
+router.put('/game/selection/:id', Games.tempSelection);
+
+router.put('/game/check/:id', Games.checkSelection);
+
+router.put('/players/clearvotes/:id', Player.clearVotes);
 
 export default router;
