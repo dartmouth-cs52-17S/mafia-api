@@ -101,6 +101,18 @@ export const updateStage = (id, stage) => {
   });
 };
 
+export const deletePlayer = (gameID, userID) => {
+  return Game.findById(gameID).then((game) => {
+    for (let i = 0; i < game.players.length; i += 1) {
+      if (`${game.players[i]}` === userID) {
+        game.players.splice(i, 1);
+      }
+    }
+    console.log(game.players);
+    return game.save();
+  });
+};
+
 export const checkSelection = (req, res) => {
   return Game.findById(req.params.id).then((game) => {
     console.log(`MAFIA SELECTION IS ${game.mafiaSelection}`);
