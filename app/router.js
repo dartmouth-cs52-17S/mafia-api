@@ -18,9 +18,11 @@ router.get('/user/:id', Users.getUser);
 
 router.post('/signin', Users.authUser);
 
-// router.put('/users', Users.assignRoles);
 
 router.post('/games', requireAuth, Games.createGame);
+
+router.get('/games', Games.fetchGames);
+
 
 router.put('/game/stage/:id', Games.updateStage);
 
@@ -30,9 +32,12 @@ router.put('/game/:id', requireAuth, Games.updatePlayers);
 
 router.get('/game/:id', Games.getGame);
 
-router.get('/games', Games.fetchGames);
-
 router.delete('/game/delete/:id', Games.deleteGame);
+
+router.put('/game/selection/:id', Games.tempSelection);
+
+router.put('/game/check/:id', Games.checkSelection);
+
 
 router.get('/players/:gameID', Player.getPlayers);
 

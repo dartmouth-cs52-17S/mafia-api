@@ -6,7 +6,6 @@ import User from '../models/user_model';
 dotenv.config({ silent: true });
 
 export const authUser = (req, res) => {
-  // res.send({ token: tokenForUser(req.body.token) });
   FB.api('/me', { access_token: req.body.authData.accessToken }, (response) => {
     User.findOne({ name: response.name }, (err, data) => {
       if (!err && !data) {
@@ -57,10 +56,6 @@ export const getUser = (req, res) => {
     res.send(err);
   });
 };
-
-// export const assignRoles = (req, res) => {
-//   res.done();
-// };
 
 // encodes a new token for a user object
 function tokenForUser(user) {

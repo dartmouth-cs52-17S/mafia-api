@@ -43,9 +43,8 @@ app.all('*', setCustomHeaderFunc);
 
 app.set('view engine', 'ejs');
 app.use(express.static('static'));
-// enables static assets from folder static
 app.set('views', path.join(__dirname, '../app/views'));
-// this just allows us to render ejs from the ../app/views directory
+
 
 // enable json message body for posting data to API
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -75,7 +74,7 @@ if (process.env.SOCKET) {
   server.listen(process.env.PORT || 3000);
 }
 
-console.log(`listening on: ${port}`);
+console.log(`Listening on: ${port}`);
 
 io.on('connection', (socket) => {
   socket.emit('connect');
@@ -93,7 +92,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log(`\t socket.io:: client disconnected ${socket.userid}`);
+    console.log(`socket.io: client ${socket.userid} disconnected`);
   });
 });
 
