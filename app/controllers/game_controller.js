@@ -2,7 +2,6 @@ import Game from '../models/game_model';
 import Player from '../models/player_model';
 
 export const createGame = (req, res, next) => {
-  console.log('createGame');
   const game = new Game();
   game.currentGameStage = 0;
   game.players = [req.user._id];
@@ -66,7 +65,7 @@ export const getGame = (req, res) => {
 export const deleteGame = (req, res) => {
   Game.findByIdAndRemove({ _id: req.params.id })
   .then((result) => {
-    res.json({ message: 'Deleted Game' });
+    res.json({ message: 'Deleted game.' });
   })
   .catch((error) => {
     res.status(500).json({ error });
@@ -81,7 +80,6 @@ export const getPlayers = (req, res) => {
 
 
 export const endGame = (req, res) => {
-  console.log('update ifOver');
   return Game.findById(req.params.id).then((game) => {
     game.isOver = true;
     game.save().then((response) => {
@@ -93,7 +91,6 @@ export const endGame = (req, res) => {
 };
 
 export const updateStage = (id, stage) => {
-  console.log('updateStage');
   return Game.findById(id).then((game) => {
     if (stage) {
       game.currentGameStage = stage;
@@ -105,7 +102,6 @@ export const updateStage = (id, stage) => {
 };
 
 export const checkSelection = (req, res) => {
-  console.log('checkSelection');
   return Game.findById(req.params.id).then((game) => {
     console.log(`MAFIA SELECTION IS ${game.mafiaSelection}`);
     console.log(`DOCTOR SELECTION IS ${game.doctorSelection}`);
@@ -124,7 +120,6 @@ export const checkSelection = (req, res) => {
 };
 
 export const tempSelection = (req, res) => {
-  console.log(`the game id is ${req.params.id}`);
   Game.findById(req.params.id).then((game) => {
     if (req.body.type === 'mafiaSelection') {
       game.mafiaSelection = req.body.selection;
@@ -132,15 +127,12 @@ export const tempSelection = (req, res) => {
       game.doctorSelection = req.body.selection;
     }
     game.save().then((response) => {
-      console.log(`response is ${response}`);
       res.json(response);
     }).catch((error) => {
-      console.log('first one');
       res.status(500).json({ error });
     });
   })
-  .catch((error) => {
-    console.log('second one');
-    res.status(500).json({ error });
-  });
+.catch((error) => {
+  res.status(500).json({ error });
+});
 };
