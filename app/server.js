@@ -79,9 +79,15 @@ console.log(`Listening on: ${port}`);
 io.on('connection', (socket) => {
   socket.emit('connect');
 
-  socket.on('join', (gameID) => {
-    socket.join(gameID);
-    io.sockets.in(gameID).emit('fetchGame', null);
+  let userid = '';
+  let gameid = '';
+
+  socket.on('join', (IDs) => {
+    userid = IDs.userID;
+    gameid = IDs.gameID;
+    console.log(`localstorage userID is ${IDs.userID}`);
+    socket.join(IDs.gameID);
+    io.sockets.in(IDs.gameID).emit('fetchGame', null);
   });
 
   socket.on('updateStage', (params) => {
@@ -92,7 +98,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log(`socket.io: client ${socket.userid} disconnected`);
+    Games.deletePlayer(gameid, userid)
+    .then((result) => {
+      io.sockets.in(gameid).emit('fetchAll', null);
+    }).catch((err) => { console.log(err); });
   });
 });
 
