@@ -86,10 +86,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updateStage', (params) => {
-    console.log('updateStage');
-    if (params.stage === 7) {
-      console.log('FUCK ZIS SHIJT');
-    }
     Games.updateStage(params.id, params.stage)
     .then((result) => {
       io.sockets.in(params.id).emit('fetchAll', null);

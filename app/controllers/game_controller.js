@@ -31,7 +31,8 @@ export const fetchGames = (req, res) => {
 export const updatePlayers = (req, res) => {
   console.log(`updatePlayers ${req.params.id}`);
   Game.findById(req.params.id).then((game) => {
-    if (game.creator === `${req.user._id}`) {
+    // The following line checks to see if the player is already in the game
+    if (game.players.filter((player) => { return `${player.id}` === `${req.user._id}`; }).length > 0) {
       res.send(game.players);
     } else {
       game.players = [...game.players, req.user._id];
