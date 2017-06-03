@@ -80,8 +80,8 @@ io.on('connection', (socket) => {
   socket.emit('connect');
 
   socket.on('join', (gameID) => {
-    console.log(`joined game ${gameID}`);
     socket.join(gameID);
+    io.sockets.in(gameID).emit('fetchGame', null);
   });
 
   socket.on('updateStage', (params) => {
