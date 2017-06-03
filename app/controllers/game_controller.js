@@ -31,19 +31,23 @@ export const fetchGames = (req, res) => {
 export const updatePlayers = (req, res) => {
   console.log(`updatePlayers ${req.params.id}`);
   Game.findById(req.params.id).then((game) => {
-    // The following line checks to see if the player is already in the game
-    if (game.players.filter((player) => { return `${player.id}` === `${req.user._id}`; }).length > 0) {
-      res.send(game.players);
-    } else {
-      game.players = [...game.players, req.user._id];
-      game.save()
-      .then((response) => {
-        res.send(`${response}`);
-      })
-      .catch((err) => {
-        res.sendStatus(500);
-      });
+    // The following line checks to see if the player is already in the game;
+    for (let i = 0; i < game.players.length; i += 1) {
+      console.log(typeof game.players[i]);
+      console.log(req.user._id);
+      if (`${game.players[i]}` === `${req.user._id}`) {
+        res.send(game.players);
+        return;
+      }
     }
+    game.players = [...game.players, req.user._id];
+    game.save()
+    .then((response) => {
+      res.send(`${response}`);
+    })
+    .catch((err) => {
+      res.sendStatus(500);
+    });
   }).catch((error) => { console.log(error); });
 };
 
