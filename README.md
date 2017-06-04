@@ -7,46 +7,46 @@ This is an online Mafia game where players are automatically given roles to play
 ## Mockups
 
 ### Home
-![home](public/images/Landing_Page.png "home")
+![home](images/Landing_Page.png "home")
 Supports Facebook Login!
 
 ### Create or Join Room
-![startGame](public/images/Join:Create.png "start")
+![startGame](images/Join:Create.png "start")
 
 You can either create or join an existing room. The following picture shows a list of existing rooms, sorted by time of creation and displaying players currently in the game.
-![Rooms](public/images/Rooms.png "Room")
+![Rooms](images/Rooms.png "Room")
 
 ### Role Assignment
-![Role](public/images/Role_Assignment.png "role")
+![Role](images/Role_Assignment.png "role")
 Once the creator starts the game, players are assigned a role from the following list:
 Mafia, Doctor, Police, and Villager
 
 ### Village and Player Status
-![village](public/images/Player_Status.png "village")
+![village](images/Player_Status.png "village")
 This is a daytime page that display players' status. If dead, a player's name will display as red.
 
 ### Mafia Kill
-![mafia](public/images/Mafia_Kill.png "mafia")
+![mafia](images/Mafia_Kill.png "mafia")
 Only the Mafia will be able to chose people to kill.
 
 ### Doctor Heal
-![doctor](public/images/Doctor_Heal.png "doctor")
+![doctor](images/Doctor_Heal.png "doctor")
 Only the Doctor will be able to heal people.
 
 ### Police Reveal
-![police](public/images/Police_Reveal.png "police")
+![police](images/Police_Reveal.png "police")
 Since I'm police in this demo, I'm able to reveal the role of one player per round.
 
 ### Vote
-![vote](public/images/Voting.png "vote")
+![vote](images/Voting.png "vote")
 After the special roles have made their selections, everyone will discuss and vote for who they think is the mafia, and put them to death!
 
 ### Game Result
-![result](public/images/Game_Result.png "result")
+![result](images/Game_Result.png "result")
 When there are only two players left, the game will end, and calculate and display the winner.
 
 ### Chat
-![chat](public/images/chatbox.png "chat")
+![chat](images/chatbox.png "chat")
 
 Thanks to Annie for this cool chatbox that supports emoji and multiple languages!
 
